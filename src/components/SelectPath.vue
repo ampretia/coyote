@@ -1,24 +1,27 @@
 
 <template>
+
   <section class="section">
     <div class="container">
-
-      <div>
-        <button class="button" v-on:click="getCourse">Get the course details</button>
-        </div>
-
       <template v-if="ready">
-        <div class="container">
+        <div class="container box">
           <p class="title">{{ course.info.title }}</p>
           <p class="subtitle">{{ course.info.overview }}</p>
         </div>
+        <div class="section">
         <div class="container">
-          <p> Available course paths</p>
+          <p class="subtitle is-3">Available course paths</p>
           <ul id="example-2">
             <div v-for="(p, index) in course.paths" :key="p.title" class="box">
-              <li v-on:click="selectPath(index)" :id="p.title"> {{ p.title }} </li>
+              <li v-on:click="selectPath(index)" :id="p.title"> <span class="has-text-weight-bold">{{ p.title }}</span> </li>
             </div>
           </ul>
+        </div>
+        </div>
+      </template>
+      <template v-else>
+      <div>
+        <button class="button is-primary" v-on:click="getCourse">Get the course details</button>
         </div>
       </template>
 

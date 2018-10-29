@@ -1,36 +1,179 @@
 
 <template>
   <section class="section">
-    <div class="container">
-
+    <div class="container box">
         <div class="container">
           <p class="title">{{ path.title }}</p>
         </div>
         <div class="container">
           <p class="subtitle"> Please selected the style of elements to study on this path</p>
         </div>
+    </div>
+    <div class="section ">
+    <div class="container">
         <div class="container">
-          <p> Available course elements</p>
-          <div v-for="(value, key) in choices" :key="key" class="columns">
-            <div class="column">
-            {{ key }}:
-            </div>
-            <div class="column">
-
-              <div class="select">
-                <select v-model="s[key]" v-on:change="signalChange">
-                  <option  v-for="(tutorial, index) in  value" :key="index" v-bind:value="index">{{ tutorial.title}}</option>
-                </select>
+          <p class="subtitle is-3">Available course elements</p>
+          <div v-for="(value, key) in choices" :key="key" class="container box has-background-light">
+            <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                  <div class="label">
+                    {{ key }}
+                  </div>
+                <div class="field-body">
+                  <div class="control">
+                    <div class="select">
+                      <select v-model="s[key]" v-on:change="signalChange">
+                        <option  v-for="(tutorial, index) in  value" :key="index" v-bind:value="index">{{ tutorial.title}}</option>
+                      </select>
+                    </div>
+                </div>
               </div>
+              </div>
+            </div>
 
+              <template v-if="details(key,s[key])===undefined">
+              </template>
+              <template v-else>
+
+                <div class="column">
+                <div class="panel">
+                  <div class="panel-heading has-background-grey-lighter">
+                    <span>Prereqs</span>
+                  </div>
+
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Concepts</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).prereqs.concepts">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Artefacts</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).prereqs.artefacts">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Useful</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).prereqs.useful">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="column">
+                <div class="panel">
+                  <div class="panel-heading has-background-grey-lighter">
+                    <span>Completion</span>
+                  </div>
+
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Concepts</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).completion.concepts">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Artefacts</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).completion.artefacts">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-block">
+                    <div class="field is-horizontal">
+                      <div class="field-label">
+                        <label class="label">Useful</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field ">
+                          <template v-for="(k,v) in details(key,s[key]).completion.useful">
+                            <div class="control" :key="v">
+                              <label class="checkbox">
+                                <input type="checkbox">
+                                  {{k}}
+                              </label>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </template>
             </div>
           </div>
-
         </div>
-
-        <div class="container">
-          <p class="button is-primary" v-on:click="produceTutorial">Produce tutorial</p>
-         </div>
+        </div>
+    <div class="container">
+      <p class="button is-primary" v-on:click="produceTutorial">Produce tutorial</p>
+    </div>
     </div>
   </section>
 </template>
@@ -38,14 +181,15 @@
 <script>
 /* eslint-disable */
 
-let elementsCache = {};
+// let elementsCache = {};
 
 export default {
   name: "SelectAspects",
   data: function (){
      return {
-    selected: '',
-    s : {}
+          selected: '',
+          s : {},
+          elementsCache : {}
      }
   },
   methods: {
@@ -55,19 +199,24 @@ export default {
     produceTutorial: function() {
       let tutorials=[]
       for (let k in this.s){
-        tutorials.push(elementsCache[k][this.s[k]]);
+        console.log(`produce k = ${k}`)
+        tutorials.push(this.elementsCache[k][this.s[k]]);
       }
       this.$store.dispatch('setTutorials',tutorials)
       this.$router.push('text')
     },
     signalChange: function() {
       console.log(`finally.....${this.selected}`)
+    },
+    details: function(k,v){
+          return this.elementsCache[k][v];
     }
   },
   computed: {
     path: function() {
       return this.$store.state.selectedPath;
     },
+
     choices: function() {
       let result = {};
       // reduce the elements to an aim and a set of choice of tutorials
@@ -82,7 +231,7 @@ export default {
         this.$set(this.s,aim,'------')
         result[aim] = tutorials.reduce((final, value) => {
           let rc = e["required-concepts"][0];
-          if (value.prereqs.concepts.includes(rc)) {
+          if (value.aim===aim && value.prereqs.concepts.includes(rc)) {
             final.push(value);
           }
 
@@ -91,7 +240,7 @@ export default {
       }
 
       console.log(result);
-      elementsCache=result;
+      this.elementsCache=result;
       return result;
     }
   }

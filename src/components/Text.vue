@@ -53,11 +53,7 @@ export default {
   },
   computed: {},
   mounted() {
-    let tutorials = /*[
-      { "src-uri": "./Packaging-your-own-contract.md" },
-      { "src-uri": "./Running-Commercial-Paper-Contract.md" }
-    ];*/
-    this.$store.state.selectedTutorials;
+    let tutorials = this.$store.state.selectedTutorials;
     let number = tutorials.length;
     for (let tutorial of tutorials) {
       try {

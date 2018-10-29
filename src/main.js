@@ -9,16 +9,17 @@ import { store } from './store/store.js'
 // Require the main Sass manifest file
 require('./assets/sass/main.scss')
 
+// Ensure that the root is the page navigate to if the state is not yet set
 router.beforeEach((to, from, next) => {
   /* must call `next` */
-  if (store.state.ready) {
+  if (store.state.ready || to.path === '/') {
     next()
   } else {
     next('/')
   }
 })
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 /* eslint-disable no-new */
 new Vue({
